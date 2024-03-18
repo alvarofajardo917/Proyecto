@@ -14,7 +14,6 @@ class Listview1Screen extends StatelessWidget {
       ),
       body: ListView(
          children:  [
-         
          ...options.map(
           (game) => ListTile(
             title: Text(game),
