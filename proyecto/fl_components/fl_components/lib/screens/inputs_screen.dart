@@ -29,17 +29,17 @@ class InputsScreen extends StatelessWidget {
                 key: myFormkey,
                 child: Column(
                   children:  [
-                    CustomInputField( labelText: 'Nombre', hintText: 'Nombre del usuario'),
-                    SizedBox(height: 30),
+                    CustomInputField( labelText: 'Nombre', hintText: 'Nombre del usuario', formProperty: 'first_name', formValues:formValues),
+                    const SizedBox(height: 30),
                 
-                    CustomInputField( labelText: 'Apellido', hintText: 'Apellido del usuario'),
-                    SizedBox(height: 30),
+                    CustomInputField( labelText: 'Apellido', hintText: 'Apellido del usuario', formProperty: 'last_name', formValues:formValues),
+                    const SizedBox(height: 30),
                 
-                     CustomInputField( labelText: 'Correo', hintText: 'Correo del usuario',keyboardType: TextInputType.emailAddress,),
-                    SizedBox(height: 30),
+                    CustomInputField( labelText: 'Correo', hintText: 'Correo del usuario',keyboardType: TextInputType.emailAddress, formProperty: 'email', formValues:formValues),
+                    const SizedBox(height: 30),
                 
-                    CustomInputField( labelText: 'Contraseña', hintText: 'Contraseña del usuario', obscureText: true),
-                    SizedBox(height: 30),
+                    CustomInputField( labelText: 'Contraseña', hintText: 'Contraseña del usuario', obscureText: true, formProperty: 'password', formValues:formValues),
+                    const SizedBox(height: 30),
                     
                     ElevatedButton(
                       child: const SizedBox(
@@ -48,7 +48,7 @@ class InputsScreen extends StatelessWidget {
                         ),
                       onPressed:(){
 
-                        FocusScope.of(context).requestFocus(FocusNode());
+                        FocusScope.of(context).requestFocus(FocusNode());//para que se retire el teclado en cuanto se presione el boton gurdar 
                         
                         if(!myFormkey.currentState!.validate()){
                           print('Formulario no valido');
