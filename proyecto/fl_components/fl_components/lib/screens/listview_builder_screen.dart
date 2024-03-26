@@ -1,8 +1,6 @@
-import 'dart:js_util';
 
 import 'package:fl_components/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ListViewScreen extends StatefulWidget {
   const ListViewScreen({Key? key}) : super(key: key);
@@ -42,6 +40,11 @@ class _ListViewScreenState extends State<ListViewScreen> {
     isLoading =false;
     setState(() {});
 
+    scrollController.animateTo(
+      scrollController.position.pixels + 120,
+     duration: const Duration(microseconds: 300),
+      curve: Curves.fastOutSlowIn
+      );
   }
 
 void add5(){
@@ -55,6 +58,9 @@ void add5(){
 
   @override
   Widget build(BuildContext context) {
+
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: MediaQuery.removePadding(
@@ -78,13 +84,13 @@ void add5(){
               },
             ),
 
+            if(isLoading)
             Positioned(
-              bottom:40 ,
-              left: 40,
-              right: 40,
-              child: const _LoadingIcon()
-              )
-
+              bottom: 40,
+              left: size.width * 0.5 -30,
+              child: const _LoadingIcon(),
+            )
+            
           ],
         ),
       ),
@@ -101,8 +107,8 @@ class _LoadingIcon extends StatelessWidget{
 Widget build(BuildContext context){
     return Container(
           padding: const EdgeInsets.all(10),
-          height: 60,
-          width: 60,
+          height: 30,
+          width: 30,
           decoration: BoxDecoration(
              color: Colors.white.withOpacity(0.9),
              shape: BoxShape.circle
