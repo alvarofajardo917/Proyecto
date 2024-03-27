@@ -1,5 +1,6 @@
 
 import 'package:fl_components/theme/app_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListViewScreen extends StatefulWidget {
@@ -39,6 +40,7 @@ class _ListViewScreenState extends State<ListViewScreen> {
 
     isLoading =false;
     setState(() {});
+  if(scrollController.position.pixels + 100 <= scrollController.position.maxScrollExtent) return;
 
     scrollController.animateTo(
       scrollController.position.pixels + 120,
@@ -55,6 +57,13 @@ void add5(){
   setState(() {});
 }
 
+  Future<void> onRefresh() async{
+    await Future.delayed(const Duration(seconds: 2));
+    final lastId = imagesIds.last;
+    imagesIds.clear();
+    imagesIds.add(lastId + 1);
+    add5();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,26 +71,30 @@ void add5(){
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: MediaQuery.removePadding(
         context: context,
         removeTop: true,
         removeBottom: true,
         child: Stack(
           children: [
-            ListView.builder(
-              physics: const BouncingScrollPhysics(), // es para que tenga un parecido a ios
-              controller: scrollController,
-              itemCount: imagesIds.length,
-              itemBuilder: (BuildContext context, int index) {
-                return FadeInImage(
-                    width: double.infinity,
-                    height: 300,
-                    fit: BoxFit.cover,
-                    placeholder: const AssetImage('assets/jar-loading.gif'),
-                    image: NetworkImage(
-                        'https://picsum.photos/500/300?image=${imagesIds[index]}'));
-              },
+            RefreshIndicator(
+              color: AppTheme.primary,
+              onRefresh: onRefresh,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(), // es para que tenga un parecido a ios
+                controller: scrollController,
+                itemCount: imagesIds.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FadeInImage(
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
+                      placeholder: const AssetImage('assets/jar-loading.gif'),
+                      image: NetworkImage(
+                          'https://picsum.photos/500/300?image=${imagesIds[index]}'));
+                },
+              ),
             ),
 
             if(isLoading)
